@@ -4,7 +4,7 @@
 
 # iwwa-lambda-aggregated-readings-api
 
-Pipes one kinesis stream into another.
+Allow posting more than one reading into a single call.
 
 ## Deployment
 
@@ -29,7 +29,6 @@ are kept secret).
 
 The following environment variables are needed to configure the function:
 
-- `MONGODB_URL`
 - `KINESIS_STREAM_NAME`
 
 NOTE: since the project uses `lambda-deploy`, in the build environment (Travis)
