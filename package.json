@@ -1,0 +1,45 @@
+{
+  "name": "iwwa-lambda-aggregated-readings-api",
+  "version": "1.0.0",
+  "description": "Aggregated readings API",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/innowation/iwwa-lambda-aggregated-readings-api.git"
+  },
+  "dependencies": {
+    "bluebird": "^3.0.5",
+    "bunyan": "^1.5.1",
+    "dotenv": "^1.2.0",
+    "lambda-connect": "^1.0.2",
+    "lcm-validate-body": "^1.0.0",
+    "ramda": "^0.18.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.34",
+    "babel-core": "^5.8.34",
+    "babel-eslint": "^5.0.0-beta4",
+    "babel-plugin-rewire": "^0.1.22",
+    "chai": "^3.4.1",
+    "chai-as-promised": "^5.1.0",
+    "coveralls": "^2.11.4",
+    "eslint": "^1.10.1",
+    "gulp": "^3.9.0",
+    "isparta": "^3.5.3",
+    "lambda-deploy": "^2.1.0",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
+  },
+  "scripts": {
+    "clean": "rimraf coverage",
+    "coverage": "NODE_PATH=src NODE_ENV=test babel-node $(npm bin)/isparta cover $(npm bin)/_mocha -- --recursive",
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "deploy": "gulp deploy",
+    "dev": "npm test -- --watch",
+    "lint": "eslint src test",
+    "test": "NODE_PATH=src NODE_ENV=test mocha --compilers js:babel/register --recursive"
+  },
+  "author": "Team Wattellina <wattellina@mondora.com>",
+  "license": "Apache-2.0"
+}
