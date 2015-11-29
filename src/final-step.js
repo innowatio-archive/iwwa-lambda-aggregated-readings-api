@@ -1,4 +1,5 @@
 import BPromise from "bluebird";
+import {v4} from "node-uuid";
 import R from "ramda";
 
 import * as config from "./services/config";
@@ -47,7 +48,16 @@ function convert (body) {
             date: getDateAt(startDate, body.timeStep, offset),
             measurements: getMeasurementsAt(body.measurements, offset)
         })),
-        R.filter(reading => !R.isEmpty(reading.measurements))
+        R.filter(reading => !R.isEmpty(reading.measurements)),
+        R.map(reading => ({
+            id: v4(),
+            timestamp: new Date().toISOString(),
+            type: "element inserted in collection readings",
+            data: {
+                id: v4(),
+                element: reading
+            }
+        }))
     )(maxRange);
 }
 

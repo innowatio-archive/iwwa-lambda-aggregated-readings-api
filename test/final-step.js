@@ -14,6 +14,18 @@ describe("convert", () => {
 
     const convert = finalStep.__get__("convert");
 
+    var clock;
+    const v4 = R.always("id");
+
+    before(() => {
+        finalStep.__Rewire__("v4", v4);
+        clock = sinon.useFakeTimers();
+    });
+    after(() => {
+        finalStep.__ResetDependency__("v4");
+        clock.restore();
+    });
+
     it("returns the disgregated array of readings", () => {
         const body = {
             sensorId: "sensorId",
@@ -37,62 +49,102 @@ describe("convert", () => {
         const readings = convert(body);
         expect(readings).to.deep.equal([
             {
-                sensorId: "sensorId",
-                date: new Date(new Date("2015-01-01").getTime() + 0).toISOString(),
-                measurements: [{
-                    type: "activeEnergy",
-                    source: "forecast",
-                    value: 1,
-                    unitOfMeasurement: "kWh"
-                }]
-            },
-            {
-                sensorId: "sensorId",
-                date: new Date(new Date("2015-01-01").getTime() + (3 * 5 * 60 * 1000)).toISOString(),
-                measurements: [
-                    {
-                        type: "activeEnergy",
-                        source: "forecast",
-                        value: 5,
-                        unitOfMeasurement: "kWh"
-                    },
-                    {
-                        type: "maxPower",
-                        source: "forecast",
-                        value: 6,
-                        unitOfMeasurement: "kW"
+                id: "id",
+                timestamp: new Date().toISOString(),
+                type: "element inserted in collection readings",
+                data: {
+                    id: "id",
+                    element: {
+                        sensorId: "sensorId",
+                        date: new Date(new Date("2015-01-01").getTime() + 0).toISOString(),
+                        measurements: [{
+                            type: "activeEnergy",
+                            source: "forecast",
+                            value: 1,
+                            unitOfMeasurement: "kWh"
+                        }]
                     }
-                ]
+                }
             },
             {
-                sensorId: "sensorId",
-                date: new Date(new Date("2015-01-01").getTime() + (4 * 5 * 60 * 1000)).toISOString(),
-                measurements: [{
-                    type: "maxPower",
-                    source: "forecast",
-                    value: 5,
-                    unitOfMeasurement: "kW"
-                }]
+                id: "id",
+                timestamp: new Date().toISOString(),
+                type: "element inserted in collection readings",
+                data: {
+                    id: "id",
+                    element: {
+                        sensorId: "sensorId",
+                        date: new Date(new Date("2015-01-01").getTime() + (3 * 5 * 60 * 1000)).toISOString(),
+                        measurements: [
+                            {
+                                type: "activeEnergy",
+                                source: "forecast",
+                                value: 5,
+                                unitOfMeasurement: "kWh"
+                            },
+                            {
+                                type: "maxPower",
+                                source: "forecast",
+                                value: 6,
+                                unitOfMeasurement: "kW"
+                            }
+                        ]
+                    }
+                }
             },
             {
-                sensorId: "sensorId",
-                date: new Date(new Date("2015-01-01").getTime() + (5 * 5 * 60 * 1000)).toISOString(),
-                measurements: [{
-                    type: "activeEnergy",
-                    source: "forecast",
-                    value: 8,
-                    unitOfMeasurement: "kWh"
-                }]
+                id: "id",
+                timestamp: new Date().toISOString(),
+                type: "element inserted in collection readings",
+                data: {
+                    id: "id",
+                    element: {
+                        sensorId: "sensorId",
+                        date: new Date(new Date("2015-01-01").getTime() + (4 * 5 * 60 * 1000)).toISOString(),
+                        measurements: [{
+                            type: "maxPower",
+                            source: "forecast",
+                            value: 5,
+                            unitOfMeasurement: "kW"
+                        }]
+                    }
+                }
             },
             {
-                sensorId: "sensorId",
-                date: new Date(new Date("2015-01-01").getTime() + (7 * 5 * 60 * 1000)).toISOString(),
-                measurements: [{
-                    type: "activeEnergy",
-                    source: "forecast",
-                    value: 1000,
-                    unitOfMeasurement: "kWh"
-                }]
+                id: "id",
+                timestamp: new Date().toISOString(),
+                type: "element inserted in collection readings",
+                data: {
+                    id: "id",
+                    element: {
+                        sensorId: "sensorId",
+                        date: new Date(new Date("2015-01-01").getTime() + (5 * 5 * 60 * 1000)).toISOString(),
+                        measurements: [{
+                            type: "activeEnergy",
+                            source: "forecast",
+                            value: 8,
+                            unitOfMeasurement: "kWh"
+                        }]
+                    }
+                }
+            },
+            {
+                id: "id",
+                timestamp: new Date().toISOString(),
+                type: "element inserted in collection readings",
+                data: {
+                    id: "id",
+                    element: {
+                        sensorId: "sensorId",
+                        date: new Date(new Date("2015-01-01").getTime() + (7 * 5 * 60 * 1000)).toISOString(),
+                        measurements: [{
+                            type: "activeEnergy",
+                            source: "forecast",
+                            value: 1000,
+                            unitOfMeasurement: "kWh"
+                        }]
+                    }
+                }
             }
         ]);
     });

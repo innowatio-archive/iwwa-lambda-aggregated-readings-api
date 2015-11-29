@@ -13,6 +13,7 @@
     "dotenv": "^1.2.0",
     "lambda-connect": "^1.0.2",
     "lcm-validate-body": "^1.0.0",
+    "node-uuid": "^1.4.7",
     "ramda": "^0.18.0"
   },
   "devDependencies": {

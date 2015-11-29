@@ -19,7 +19,7 @@ export default {
                 "properties": {
                     "type": {
                         "type": "string",
-                        "enum": ["activeEnergy", "reactiveEnergy", "maxPower"]
+                        "enum": ["activeEnergy", "reactiveEnergy", "maxPower", "temperature", "humidity", "illuminance", "co2"]
                     },
                     "source": {
                         "type": "string",
