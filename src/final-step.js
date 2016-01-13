@@ -26,7 +26,6 @@ function getMeasurementsAt (measurements, offset) {
     return R.pipe(
         R.map(m => ({
             type: m.type,
-            source: m.source,
             value: m.values[offset],
             unitOfMeasurement: m.unitOfMeasurement
         })),
@@ -46,6 +45,7 @@ function convert (body) {
         R.map(offset => ({
             sensorId: body.sensorId,
             date: getDateAt(startDate, body.timeStep, offset),
+            source: body.source ? body.source : body.measurements[0].source,
             measurements: getMeasurementsAt(body.measurements, offset)
         })),
         R.filter(reading => !R.isEmpty(reading.measurements)),

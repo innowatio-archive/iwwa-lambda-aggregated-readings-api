@@ -12,6 +12,10 @@ export default {
         "timeStep": {
             "type": "number"
         },
+        "source": {
+            "type": "string",
+            "enum": ["forecast", "reading"]
+        },
         "measurements": {
             "type": "array",
             "items": {
@@ -40,7 +44,6 @@ export default {
                 },
                 "required": [
                     "type",
-                    "source",
                     "values",
                     "unitOfMeasurement"
                 ]
