@@ -56,6 +56,9 @@ function convert (body) {
             data: {
                 id: v4(),
                 element: reading
+            },
+            source: {
+                kinesisPartitionKey: reading.sensorId
             }
         }))
     )(maxRange);

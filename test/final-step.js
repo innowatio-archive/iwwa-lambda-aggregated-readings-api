@@ -64,6 +64,9 @@ describe("convert", () => {
                             unitOfMeasurement: "kWh"
                         }]
                     }
+                },
+                source: {
+                    kinesisPartitionKey: "sensorId"
                 }
             },
             {
@@ -90,6 +93,9 @@ describe("convert", () => {
                             }
                         ]
                     }
+                },
+                source: {
+                    kinesisPartitionKey: "sensorId"
                 }
             },
             {
@@ -108,6 +114,9 @@ describe("convert", () => {
                             unitOfMeasurement: "kW"
                         }]
                     }
+                },
+                source: {
+                    kinesisPartitionKey: "sensorId"
                 }
             },
             {
@@ -126,6 +135,9 @@ describe("convert", () => {
                             unitOfMeasurement: "kWh"
                         }]
                     }
+                },
+                source: {
+                    kinesisPartitionKey: "sensorId"
                 }
             },
             {
@@ -144,6 +156,9 @@ describe("convert", () => {
                             unitOfMeasurement: "kWh"
                         }]
                     }
+                },
+                source: {
+                    kinesisPartitionKey: "sensorId"
                 }
             }
         ]);
