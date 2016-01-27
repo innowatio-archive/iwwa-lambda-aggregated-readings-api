@@ -170,8 +170,15 @@ describe("putRecords", () => {
             invocations.push(Date.now());
             return delay(100);
         });
-        const readings = R.range(0, 1500).map(idx => ({idx}));
-        return putRecords(readings).then(() => {
+        const events = R.range(0, 1500).map(idx => ({
+            id: idx,
+            data: {
+                element: {
+                    sensorId: idx
+                }
+            }
+        }));
+        return putRecords(events).then(() => {
             invocations
                 .map((date, idx) => (
                     idx === 0 ? 0 : date - invocations[idx - 1]
@@ -185,14 +192,46 @@ describe("putRecords", () => {
 
     it("sequentially puts batches of 250 records into kinesis - batch size", () => {
         kinesis.putRecords = sinon.stub().returns(resolve(null));
-        const readings = R.range(0, 1500).map(idx => ({idx}));
-        return putRecords(readings).then(() => {
+        const events = R.range(0, 1500).map(idx => ({
+            id: idx,
+            data: {
+                element: {
+                    sensorId: idx
+                }
+            }
+        }));
+        return putRecords(events).then(() => {
             expect(kinesis.putRecords).to.have.callCount(6);
             R.range(0, 6)
                 .map(idx => kinesis.putRecords.getCall(idx))
                 .forEach(call => {
                     expect(call.args[0].Records.length).to.equal(250);
                 });
+        });
+    });
+
+    it("assigns each record a PartitionKey matching the event sensorId", () => {
+        kinesis.putRecords = sinon.stub().returns(resolve(null));
+        const events = R.range(0, 1500).map(idx => ({
+            id: idx,
+            data: {
+                element: {
+                    sensorId: idx
+                }
+            }
+        }));
+        return putRecords(events).then(() => {
+            expect(kinesis.putRecords).to.have.callCount(6);
+            const records = R.pipe(
+                R.map(idx => kinesis.putRecords.getCall(idx)),
+                R.map(call => call.args[0].Records),
+                R.flatten
+            )(R.range(0, 6));
+            expect(records).to.have.length(1500);
+            records.forEach(record => {
+                const event = JSON.parse(record.Data);
+                expect(record.PartitionKey).to.equal(event.data.element.sensorId);
+            });
         });
     });
 

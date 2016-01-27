@@ -6,10 +6,10 @@ import * as config from "./services/config";
 import * as kinesis from "./services/kinesis";
 import log from "./services/logger";
 
-function _putRecords (arrayOfData) {
-    const records = arrayOfData.map(data => ({
-        Data: JSON.stringify(data),
-        PartitionKey: config.KINESIS_PARTITION_KEY
+function _putRecords (events) {
+    const records = events.map(event => ({
+        Data: JSON.stringify(event),
+        PartitionKey: event.data.element.sensorId
     }));
     log.debug({records}, "Putting Kinesis records");
     return kinesis.putRecords({
@@ -17,8 +17,8 @@ function _putRecords (arrayOfData) {
         StreamName: config.KINESIS_STREAM_NAME
     });
 }
-function putRecords (arrayOfData) {
-    const batches = R.splitEvery(250, arrayOfData);
+function putRecords (events) {
+    const batches = R.splitEvery(250, events);
     return BPromise.map(batches, _putRecords, {concurrency: 1});
 }
 
