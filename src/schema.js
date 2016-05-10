@@ -5,18 +5,18 @@ export default {
         "sensorId": {
             "type": "string"
         },
-        "date": {
-            "type": "string",
-            "format": "date-time"
-        },
-        "timeStep": {
-            "type": "number"
-        },
         "measurements": {
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
+                    "dates": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
                     "type": {
                         "type": "string",
                         "enum": ["activeEnergy", "reactiveEnergy", "maxPower", "temperature", "humidity", "illuminance", "co2"]
@@ -28,10 +28,7 @@ export default {
                     "values": {
                         "type": "array",
                         "items": {
-                            "oneOf": [
-                                {"type": "number"},
-                                {"type": "null"}
-                            ]
+                            "type": "number"
                         }
                     },
                     "unitOfMeasurement": {
@@ -39,6 +36,7 @@ export default {
                     }
                 },
                 "required": [
+                    "date",
                     "type",
                     "source",
                     "values",
@@ -49,8 +47,6 @@ export default {
     },
     "required": [
         "sensorId",
-        "date",
-        "timeStep",
         "measurements"
     ]
 };

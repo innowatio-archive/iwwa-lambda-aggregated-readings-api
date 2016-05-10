@@ -22,31 +22,29 @@ function putRecords (events) {
     return BPromise.map(batches, _putRecords, {concurrency: 1});
 }
 
-function getMeasurementsAt (measurements, offset) {
+function getMeasurementsAt (measurements, dateTime) {
     return R.pipe(
         R.map(m => ({
             type: m.type,
             source: m.source,
-            value: m.values[offset],
+            value: m.values[R.indexOf(dateTime, m.dates)],
             unitOfMeasurement: m.unitOfMeasurement
         })),
         R.filter(m => !R.isNil(m.value))
     )(measurements);
 }
-function getDateAt (startDate, timeStep, offset) {
-    const ms = startDate + (offset * timeStep);
-    return new Date(ms).toISOString();
-}
 function convert (body) {
-    const startDate = new Date(body.date).getTime();
-    const lengths = body.measurements.map(m => m.values.length);
-    const maxLength = Math.max(...lengths);
-    const maxRange = R.range(0, maxLength);
+    const allDates = R.uniq(
+        R.flatten(
+            body.measurements.map(m => m.dates)
+        )
+    ).sort();
+
     return R.pipe(
-        R.map(offset => ({
+        R.map(dateTime => ({
             sensorId: body.sensorId,
-            date: getDateAt(startDate, body.timeStep, offset),
-            measurements: getMeasurementsAt(body.measurements, offset)
+            date: dateTime.toISOString(),
+            measurements: getMeasurementsAt(body.measurements, dateTime)
         })),
         R.filter(reading => !R.isEmpty(reading.measurements)),
         R.map(reading => ({
@@ -61,7 +59,7 @@ function convert (body) {
                 kinesisPartitionKey: reading.sensorId
             }
         }))
-    )(maxRange);
+    )(allDates);
 }
 
 export default function finalStep ({body}) {

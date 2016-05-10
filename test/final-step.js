@@ -27,26 +27,34 @@ describe("convert", () => {
     });
 
     it("returns the disgregated array of readings", () => {
+        const startingTime = new Date("2015-01-01").getTime();
+        const delta = 5 * 60 * 1000;
+        const getOffsetDate = (offset) => {
+            return new Date(startingTime + (offset * delta));
+        };
         const body = {
             sensorId: "sensorId",
-            date: new Date("2015-01-01").toISOString(),
-            timeStep: (5 * 60 * 1000),
             measurements: [
                 {
                     type: "activeEnergy",
                     source: "forecast",
-                    values: [1, null, null, 5, null, 8, null, 1000, null],
+                    values: [1, 5, 8, 1000],
+                    dates: [getOffsetDate(0), getOffsetDate(3), getOffsetDate(5), getOffsetDate(7)],
                     unitOfMeasurement: "kWh"
                 },
                 {
                     type: "maxPower",
                     source: "forecast",
-                    values: [null, null, null, 6, 5],
+                    values: [6, 5],
+                    dates: [getOffsetDate(3), getOffsetDate(4)],
                     unitOfMeasurement: "kW"
                 }
             ]
         };
         const readings = convert(body);
+        // readings.forEach(reading => {
+        //     console.log(reading.data.element);
+        // });
         expect(readings).to.deep.equal([
             {
                 id: "id",
