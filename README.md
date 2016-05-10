@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/innowatio/iwwa-lambda-aggregated-readings-api.svg?branch=master)](https://travis-ci.org/innowatio/iwwa-lambda-aggregated-readings-api)
 [![Dependency Status](https://david-dm.org/innowatio/iwwa-lambda-aggregated-readings-api.svg)](https://david-dm.org/innowatio/iwwa-lambda-aggregated-readings-api)
 [![devDependency Status](https://david-dm.org/innowatio/iwwa-lambda-aggregated-readings-api/dev-status.svg)](https://david-dm.org/innowatio/iwwa-lambda-aggregated-readings-api#info=devDependencies)
+[![codecov](https://codecov.io/gh/innowatio/iwwa-lambda-aggregated-readings-api/branch/master/graph/badge.svg)](https://codecov.io/gh/innowatio/iwwa-lambda-aggregated-readings-api)
 
 # iwwa-lambda-aggregated-readings-api
 
