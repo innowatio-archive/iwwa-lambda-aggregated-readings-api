@@ -52,9 +52,6 @@ describe("convert", () => {
             ]
         };
         const readings = convert(body);
-        // readings.forEach(reading => {
-        //     console.log(reading.data.element);
-        // });
         expect(readings).to.deep.equal([
             {
                 id: "id",
